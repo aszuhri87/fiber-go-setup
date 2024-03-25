@@ -1,0 +1,61 @@
+definitions:
+  lib.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  models.Create:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.DataResponseOk:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: create
+      parameters:
+      - description: The input todo struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Create'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataResponseOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+      summary: Create an User
+      tags:
+      - users
+swagger: "2.0"
