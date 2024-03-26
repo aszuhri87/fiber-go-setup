@@ -39,11 +39,11 @@ func main() {
 
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
-		// AllowHeaders: "Origin, Content-Type, Accept",
+		AllowHeaders: "Origin, Content-Type, Accept",
 		// AllowOriginsFunc: func(origin string) bool {
 		// 	return os.Getenv("ENVIRONMENT") == "development"
 		// },
-		// AllowCredentials: false,
+		AllowCredentials: false,
 	}))
 
 	app.Use(helmet.New())
