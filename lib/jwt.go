@@ -21,8 +21,9 @@ func GenerateToken(name string, id uuid.UUID) (string, error) {
 
 	// Generate encoded token and send it as response.
 	t, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
-	if err.Error != nil {
+	if err != nil {
 		return t, err
 	}
+
 	return t, nil
 }

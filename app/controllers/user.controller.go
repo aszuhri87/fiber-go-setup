@@ -3,7 +3,7 @@ package controllers
 import (
 	"fiber-go/app/models"
 	"fiber-go/app/repositories"
-	"net/http"
+	"fiber-go/response"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -22,7 +22,7 @@ import (
 // @Router       /user [get]
 func GetUser(c *fiber.Ctx) error {
 	user := []models.User{}
-	formated := []models.ResponseData{}
+	result := []models.ResponseData{}
 	raw := models.ResponseData{}
 
 	c.BodyParser(&user)
@@ -31,14 +31,13 @@ func GetUser(c *fiber.Ctx) error {
 	for i := 0; i < len(data); i++ {
 		raw = models.ResponseData{ID: data[i].ID, Name: data[i].Name, Username: data[i].Username}
 
-		formated = append(formated, raw)
+		result = append(result, raw)
 	}
-	result := models.DataResponseOk{Data: formated, Message: "OK", Code: http.StatusOK}
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return response.ResponseInternalServerError(c)
 	}
-	return c.JSON(result)
+	return response.ResponseOk(c, result)
 }
 
 // CreateUser godoc
@@ -58,12 +57,12 @@ func PostUser(c *fiber.Ctx) error {
 	c.BodyParser(&user)
 
 	data, err := repositories.CreateUser(user)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
+	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
 
-	c.Status(200)
-	return c.JSON(data)
+	if err != nil {
+		return response.ResponseInternalServerError(c)
+	}
+	return response.ResponseOk(c, result)
 }
 
 // ShowUserFirst godoc
@@ -85,13 +84,12 @@ func GetUserByID(c *fiber.Ctx) error {
 	id := uuid.MustParse(c.Params("id"))
 
 	data, err := repositories.GetUserByID(user, id)
-	formated := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
-	result := models.DataResponseOk{Data: formated, Message: "OK", Code: http.StatusOK}
+	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return response.ResponseInternalServerError(c)
 	}
-	return c.JSON(result)
+	return response.ResponseOk(c, result)
 }
 
 // UpdateUser godoc
@@ -114,10 +112,12 @@ func PutUser(c *fiber.Ctx) error {
 	id := uuid.MustParse(c.Params("id"))
 
 	data, err := repositories.UpdateUser(user, id)
+	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
+
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return response.ResponseInternalServerError(c)
 	}
-	return c.JSON(data)
+	return response.ResponseOk(c, result)
 }
 
 // DeleteUser godoc
@@ -139,8 +139,10 @@ func DeleteUser(c *fiber.Ctx) error {
 	id := uuid.MustParse(c.Params("id"))
 
 	data, err := repositories.DeleteUser(user, id)
+	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
+
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return response.ResponseInternalServerError(c)
 	}
-	return c.JSON(data)
+	return response.ResponseOk(c, result)
 }
