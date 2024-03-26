@@ -1,15 +1,15 @@
 # GO Fiber Framework Setup, what's included?
 
-## GORM or Query Base
-## JWT
-## Migration
-## Framework Configuration
-## Make File
+### 1. GORM or Query Base
+### 2. JWT
+### 3. Migration
+### 4. Framework Configuration
+### 5. Make File
 
 # STEP
-## Clone this repo
-## Just run migration
-## Then run command "air" or "make run"
-## enjoy
+### 1. Clone this repo
+### 2. Just run migration
+### 3. Then run command "air" or "make run"
+### 4. enjoy
 
-## Created with laziness
+#### Created with laziness
