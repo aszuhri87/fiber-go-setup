@@ -5,6 +5,7 @@
 ### 3. Migration
 ### 4. Framework Configuration
 ### 5. Make File
+### 6. Live Reload with Air
 
 # STEP
 ### 1. Clone this repo
