@@ -1,5 +1,13 @@
-basePath: /v2
+basePath: /
 definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
   lib.ErrorResponse:
     properties:
       error:
@@ -22,21 +30,82 @@ definitions:
       message:
         type: string
     type: object
-host: petstore.swagger.io
+  models.ListResponseOk:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+      message:
+        type: string
+    type: object
+  models.StatusOk:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:3000
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a sample server Petstore server.
+  description: This is a sample server API with fiber server.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
+  title: Fiber Example API
   version: "1.0"
 paths:
   /user:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ListResponseOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+      summary: Show all users
+      tags:
+      - users
     post:
       consumes:
       - application/json
@@ -68,6 +137,109 @@ paths:
           schema:
             $ref: '#/definitions/lib.ErrorResponse'
       summary: Create an User
+      tags:
+      - users
+  /user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StatusOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+      summary: Delete an User
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: get User by ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataResponseOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+      summary: Show an User By ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The input todo struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Create'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataResponseOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/lib.ErrorResponse'
+      summary: Update an User
       tags:
       - users
 swagger: "2.0"

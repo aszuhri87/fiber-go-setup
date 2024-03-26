@@ -6,12 +6,14 @@ import (
 	_ "fiber-go/docs"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/helmet"
 	fiberSwagger "github.com/swaggo/fiber-swagger" // fiber-swagger middleware
 )
 
-// @title Swagger Example API
+// @title Fiber Example API
 // @version 1.0
-// @description This is a sample server Petstore server.
+// @description This is a sample server API with fiber server.
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
@@ -21,8 +23,8 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host petstore.swagger.io
-// @BasePath /v2
+// @host localhost:3000
+// @BasePath /
 func main() {
 	database.InitDB()
 	database.Conn()
@@ -35,13 +37,24 @@ func main() {
 		AppName:       "fiber-go v1.0.1",
 	})
 
-	app.Get("/swagger/*", fiberSwagger.WrapHandler)
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		// AllowHeaders: "Origin, Content-Type, Accept",
+		// AllowOriginsFunc: func(origin string) bool {
+		// 	return os.Getenv("ENVIRONMENT") == "development"
+		// },
+		// AllowCredentials: false,
+	}))
 
+	app.Use(helmet.New())
+
+	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})
 
 	routes.UserRoutes(app)
+	routes.AuthRoutes(app)
 
 	app.Listen(":3000")
 }

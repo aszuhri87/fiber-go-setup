@@ -9,6 +9,17 @@ import (
 	"github.com/google/uuid"
 )
 
+// ShowUser godoc
+// @Summary      Show all users
+// @Description  get string by ID
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  models.ListResponseOk
+// @Failure      400  {object}  lib.ErrorResponse
+// @Failure      404  {object}  lib.ErrorResponse
+// @Failure      500  {object}  lib.ErrorResponse
+// @Router       /user [get]
 func GetUser(c *fiber.Ctx) error {
 	user := []models.User{}
 	formated := []models.ResponseData{}
@@ -20,8 +31,8 @@ func GetUser(c *fiber.Ctx) error {
 	for i := 0; i < len(data); i++ {
 		raw = models.ResponseData{ID: data[i].ID, Name: data[i].Name, Username: data[i].Username}
 
+		formated = append(formated, raw)
 	}
-	formated = append(formated, raw)
 	result := models.DataResponseOk{Data: formated, Message: "OK", Code: http.StatusOK}
 
 	if err != nil {
@@ -55,6 +66,18 @@ func PostUser(c *fiber.Ctx) error {
 	return c.JSON(data)
 }
 
+// ShowUserFirst godoc
+// @Summary      Show an User By ID
+// @Description  get User by ID
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param id path string true "User ID"
+// @Success      200  {object}  models.DataResponseOk
+// @Failure      400  {object}  lib.ErrorResponse
+// @Failure      404  {object}  lib.ErrorResponse
+// @Failure      500  {object}  lib.ErrorResponse
+// @Router       /user/{id} [get]
 func GetUserByID(c *fiber.Ctx) error {
 	user := models.User{}
 	c.BodyParser(&user)
@@ -71,6 +94,19 @@ func GetUserByID(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+// UpdateUser godoc
+// @Summary      Update an User
+// @Description  Update
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param id path string true "User ID"
+// @Param data body models.Create true "The input todo struct"
+// @Success      200  {object}  models.DataResponseOk
+// @Failure      400  {object}  lib.ErrorResponse
+// @Failure      404  {object}  lib.ErrorResponse
+// @Failure      500  {object}  lib.ErrorResponse
+// @Router       /user/{id} [put]
 func PutUser(c *fiber.Ctx) error {
 	user := models.User{}
 	c.BodyParser(&user)
@@ -84,6 +120,18 @@ func PutUser(c *fiber.Ctx) error {
 	return c.JSON(data)
 }
 
+// DeleteUser godoc
+// @Summary      Delete an User
+// @Description  Delete
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param id path string true "User ID"
+// @Success      200  {object}  models.StatusOk
+// @Failure      400  {object}  lib.ErrorResponse
+// @Failure      404  {object}  lib.ErrorResponse
+// @Failure      500  {object}  lib.ErrorResponse
+// @Router       /user/{id} [delete]
 func DeleteUser(c *fiber.Ctx) error {
 	user := models.User{}
 	c.BodyParser(&user)

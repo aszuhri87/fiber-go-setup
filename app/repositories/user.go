@@ -4,12 +4,15 @@ import (
 	"fiber-go/app/models"
 	"fiber-go/database"
 	"fiber-go/lib"
+	"fmt"
 
 	"github.com/google/uuid"
 )
 
 func GetUser(user []models.User) ([]models.User, error) {
 	data := database.DB.Find(&user)
+
+	fmt.Print(data)
 
 	if data.Error != nil {
 		return user, data.Error
