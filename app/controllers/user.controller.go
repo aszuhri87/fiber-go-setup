@@ -35,9 +35,9 @@ func GetUser(c *fiber.Ctx) error {
 	}
 
 	if err != nil {
-		return response.ResponseInternalServerError(c)
+		return response.InternalServerError(c)
 	}
-	return response.ResponseOk(c, result)
+	return response.Success(c, result)
 }
 
 // CreateUser godoc
@@ -60,9 +60,9 @@ func PostUser(c *fiber.Ctx) error {
 	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
 
 	if err != nil {
-		return response.ResponseInternalServerError(c)
+		return response.InternalServerError(c)
 	}
-	return response.ResponseOk(c, result)
+	return response.Success(c, result)
 }
 
 // ShowUserFirst godoc
@@ -87,9 +87,9 @@ func GetUserByID(c *fiber.Ctx) error {
 	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
 
 	if err != nil {
-		return response.ResponseInternalServerError(c)
+		return response.InternalServerError(c)
 	}
-	return response.ResponseOk(c, result)
+	return response.Success(c, result)
 }
 
 // UpdateUser godoc
@@ -115,9 +115,9 @@ func PutUser(c *fiber.Ctx) error {
 	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
 
 	if err != nil {
-		return response.ResponseInternalServerError(c)
+		return response.InternalServerError(c)
 	}
-	return response.ResponseOk(c, result)
+	return response.Success(c, result)
 }
 
 // DeleteUser godoc
@@ -142,7 +142,7 @@ func DeleteUser(c *fiber.Ctx) error {
 	result := models.ResponseData{ID: data.ID, Name: data.Name, Username: data.Username}
 
 	if err != nil {
-		return response.ResponseInternalServerError(c)
+		return response.InternalServerError(c)
 	}
-	return response.ResponseOk(c, result)
+	return response.Success(c, result)
 }

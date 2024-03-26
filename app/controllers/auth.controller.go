@@ -33,15 +33,15 @@ func Login(c *fiber.Ctx) error {
 
 	password := lib.CheckPasswordHash(user.Password, data.Password)
 	if !password {
-		return response.ResponseUnauthorized(c)
+		return response.Unauthorized(c)
 	}
 
 	t, err := lib.GenerateToken(data.Name, data.ID)
 	if err != nil {
-		return response.ResponseInternalServerError(c)
+		return response.InternalServerError(c)
 	}
 
-	return response.ResponseOk(c, fiber.Map{"username": data.Username, "token": t})
+	return response.Success(c, fiber.Map{"username": data.Username, "token": t})
 }
 
 func accessible(c *fiber.Ctx) error {

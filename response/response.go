@@ -4,7 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func ResponseOk(c *fiber.Ctx, data any) error {
+func Success(c *fiber.Ctx, data any) error {
 	c.SendStatus(200)
 
 	return c.JSON(fiber.Map{
@@ -14,7 +14,7 @@ func ResponseOk(c *fiber.Ctx, data any) error {
 	})
 }
 
-func ResponseBadResponse(c *fiber.Ctx, message string) error {
+func Bad(c *fiber.Ctx, message string) error {
 	c.SendStatus(400)
 
 	return c.JSON(fiber.Map{
@@ -23,7 +23,7 @@ func ResponseBadResponse(c *fiber.Ctx, message string) error {
 	})
 }
 
-func ResponseInternalServerError(c *fiber.Ctx) error {
+func InternalServerError(c *fiber.Ctx) error {
 	c.SendStatus(500)
 
 	return c.JSON(fiber.Map{
@@ -32,7 +32,7 @@ func ResponseInternalServerError(c *fiber.Ctx) error {
 	})
 }
 
-func ResponseUnauthorized(c *fiber.Ctx) error {
+func Unauthorized(c *fiber.Ctx) error {
 	c.SendStatus(401)
 
 	return c.JSON(fiber.Map{
