@@ -4,6 +4,7 @@ import (
 	"fiber-go/app/models"
 	"fiber-go/app/repositories"
 	"fiber-go/response"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -15,6 +16,9 @@ import (
 // @Tags         users
 // @Accept       json
 // @Produce      json
+// @Param search query string false "Search"
+// @Param page query string false "Page"
+// @Param limit query string false "Limit"
 // @Success      200  {object}  models.ListResponseOk
 // @Failure      400  {object}  lib.ErrorResponse
 // @Failure      404  {object}  lib.ErrorResponse
@@ -26,8 +30,13 @@ func GetUser(c *fiber.Ctx) error {
 	raw := models.ResponseData{}
 
 	c.BodyParser(&user)
+	query_params := c.Queries()
 
-	data, err := repositories.GetUser(user)
+	search := query_params["search"]
+	page, _ := strconv.Atoi(query_params["page"])
+	limit, _ := strconv.Atoi(query_params["limit"])
+
+	data, err := repositories.GetUser(user, search, page, limit)
 	for i := 0; i < len(data); i++ {
 		raw = models.ResponseData{ID: data[i].ID, Name: data[i].Name, Username: data[i].Username}
 

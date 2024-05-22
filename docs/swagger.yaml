@@ -132,6 +132,19 @@ paths:
       consumes:
       - application/json
       description: get string by ID
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Page
+        in: query
+        name: page
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: string
       produces:
       - application/json
       responses:

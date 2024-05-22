@@ -14,12 +14,21 @@ func Success(c *fiber.Ctx, data any) error {
 	})
 }
 
-func Bad(c *fiber.Ctx, message string) error {
+func BadRequest(c *fiber.Ctx, message string) error {
 	c.SendStatus(400)
 
 	return c.JSON(fiber.Map{
 		"status":  400,
 		"message": message,
+	})
+}
+
+func NotFound(c *fiber.Ctx) error {
+	c.SendStatus(404)
+
+	return c.JSON(fiber.Map{
+		"status":  404,
+		"message": "Not Found!",
 	})
 }
 
