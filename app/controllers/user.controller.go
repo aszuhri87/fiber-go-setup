@@ -13,6 +13,7 @@ import (
 // ShowUser godoc
 // @Summary      Show all users
 // @Description  get string by ID
+// @Security Bearer
 // @Tags         users
 // @Accept       json
 // @Produce      json
@@ -23,7 +24,7 @@ import (
 // @Failure      400  {object}  lib.ErrorResponse
 // @Failure      404  {object}  lib.ErrorResponse
 // @Failure      500  {object}  lib.ErrorResponse
-// @Router       /user [get]
+// @Router       /api/user [get]
 func GetUser(c *fiber.Ctx) error {
 	user := []models.User{}
 	result := []models.ResponseData{}
@@ -39,7 +40,6 @@ func GetUser(c *fiber.Ctx) error {
 	data, err := repositories.GetUser(user, search, page, limit)
 	for i := 0; i < len(data); i++ {
 		raw = models.ResponseData{ID: data[i].ID, Name: data[i].Name, Username: data[i].Username}
-
 		result = append(result, raw)
 	}
 

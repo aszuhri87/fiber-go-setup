@@ -36,12 +36,12 @@ func Login(c *fiber.Ctx) error {
 		return response.Unauthorized(c)
 	}
 
-	t, err := lib.GenerateToken(data.Name, data.ID)
+	token, err := lib.GenerateToken(data.Name, data.ID)
 	if err != nil {
 		return response.InternalServerError(c)
 	}
 
-	return response.Success(c, fiber.Map{"username": data.Username, "token": t})
+	return response.Success(c, fiber.Map{"username": data.Username, "token": "Bearer " + token})
 }
 
 func accessible(c *fiber.Ctx) error {
@@ -52,5 +52,6 @@ func restricted(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	name := claims["name"].(string)
+
 	return c.SendString("Welcome " + name)
 }

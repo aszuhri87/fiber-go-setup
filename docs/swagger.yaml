@@ -93,41 +93,7 @@ info:
   title: Fiber Example API
   version: "1.0"
 paths:
-  /login:
-    post:
-      consumes:
-      - application/json
-      description: Login bro
-      parameters:
-      - description: The input todo struct
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/models.Credentials'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.DataResponseOk'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.ResponseStatus'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.ResponseStatus'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ResponseStatus'
-      summary: Login User
-      tags:
-      - Login
-  /user:
+  /api/user:
     get:
       consumes:
       - application/json
@@ -164,9 +130,46 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/lib.ErrorResponse'
+      security:
+      - Bearer: []
       summary: Show all users
       tags:
       - users
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login bro
+      parameters:
+      - description: The input todo struct
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DataResponseOk'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseStatus'
+      summary: Login User
+      tags:
+      - Login
+  /user:
     post:
       consumes:
       - application/json
@@ -303,4 +306,10 @@ paths:
       summary: Update an User
       tags:
       - users
+securityDefinitions:
+  Bearer:
+    description: use `Bearer <xx token xx>` to authenticate
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
